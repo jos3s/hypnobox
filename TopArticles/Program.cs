@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Text;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using TopArticles.Entites;
 
@@ -16,7 +17,7 @@ namespace TopArticles
         {
             try
             {
-                int numberOfArticles = getNumberOfArticles();
+                int numberOfArticles = GetNumberOfArticles();
 
                 int apiPage = 1;
 
@@ -35,7 +36,7 @@ namespace TopArticles
             finally { Console.WriteLine("Digite qualquer tecla para encerrar o programa."); }
         }
 
-        private static int getNumberOfArticles()
+        private static int GetNumberOfArticles()
         {
             Console.Write("Digite o número limite de artigos:");
             var inputLines = Console.ReadLine();
@@ -123,7 +124,15 @@ namespace TopArticles
         {
             for (int i = 0; i < articlesOrder.Count(); i++)
             {
-                Console.WriteLine($"Artigo N°{i + 1}: '{articlesOrder[i].Title}' tem {articlesOrder[i].NumComments} comentários");
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.Append($"Artigo N°{i + 1}: ");
+                stringBuilder.Append($"'{articlesOrder[i].Title}'");
+                if(articlesOrder[i].NumComments != null)
+                    stringBuilder.Append($" tem {articlesOrder[i].NumComments} comentários");
+                else
+                    stringBuilder.Append($" não tem comentários");
+                stringBuilder.Append(i == articlesOrder.Count-1 ? "." : ";");
+                Console.WriteLine(stringBuilder.ToString());
             }
         }
     }
